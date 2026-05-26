@@ -53,7 +53,7 @@ int main() {
 }
 ```
 
-Le **typage** a été inventé pour indiquer à la machine comment bien stocker en mémoire une valeur.
+Le **typage** a été inventé pour indiquer au compilateur comment bien stocker en mémoire une valeur.
 
 ```
 int age = 23; -> 17 00 00 00
@@ -68,7 +68,7 @@ char name[] = "Mathieu"; -> 4D 61 74 68 69 65 75 00
 
 <br/>
 
-Un nouvel usage a vite été trouvé ! Certes, il permettait d'indiquer à la machine comment le ranger, mais il permettait aux développeurs de réfléchir de manière plus **structurée**.
+Un nouvel usage a vite été trouvé ! Certes, il permettait d'indiquer à la machine comment ranger une variable en mémoire, mais pour les développeurs le typage permet de réfléchir de manière plus **structurée**.
 
 ```ts
 interface User {
@@ -86,7 +86,7 @@ Le **typage** prend ici une autre dimension. Il crée l'**identité** d'une **do
 
 L'**atout** principal du **typage**, c'est qu'il intervient lors de la phase de **développement**. 
 
-Ce qui était avant un prérequis pour la cohérence de la mémoire devient aujourd'hui des **obligations** !
+Ce qui étaient avand des prérequis pour la cohérence de la mémoire deviennent aujourd'hui des **obligations** !
 
 ```ts twoslash
 const value: string = "value";
@@ -94,7 +94,7 @@ declare function superFunction (input: number): void
 superFunction(value);
 ```
 
-Et les **obligations**/**types** étant des informations **explicites**, il est donc tout à fait possible de lancer un programme sans qu'il n'y ait d'**erreur**, car sinon, votre **compilateur** vous aurait averti en amont.
+Et les **obligations**/**types** étant des informations **explicites**, il est donc tout à fait possible de lancer un programme sans qu'il n'y ait d'**erreur**, car votre **compilateur** vous aurait averti en amont.
 
 ---
 layout: center
@@ -111,9 +111,9 @@ layout: two-cols-header
 
 # Type Driven Design : **C'est plus que ça**
 
-On pourrait croire que ça se résume à créer des **interfaces** et des **types** pour les `entrées` et `sorties` de nos méthodes/fonctions, afin que le `code métier` à l'intérieur puisse s'**exécuter** plus **sereinement** !
+On pourrait croire que le `type driven design` se résume à créer des **interfaces** et des **types** pour les `entrées` et `sorties` de nos méthodes/fonctions, afin que le `code métier` à l'intérieur puisse s'**exécuter** plus **sereinement** !
 
-### Pour être sereins, il faudrait que le code exécuté à l'intérieur soit aussi contraint.
+### Mais pour être sereins, il faudrait que le code exécuté à l'intérieur soit aussi contraint.
 
 ::left::
 ```ts
@@ -161,7 +161,7 @@ layout: two-cols-header
 
 # Type Driven Design : **Sécurisation de la donnée**
 
-En identifiant correctement les différents **états** de la **donnée**, il est donc impossible pour notre cas de se tromper !
+En identifiant correctement les différents **états** de la **donnée**, il est donc impossible dans notre cas de se tromper !
 
 ::left::
 ```ts
@@ -272,7 +272,7 @@ Il ne reste plus qu'à naviguer facilement pour réadapter tout le code concern�
 Tous les **langages** typés ne sont pas forcément **optimisés** pour le `type driven design`. Le langage doit obligatoirement avoir :
 - Un système de générique avancé
 - Une catégorisation des types
-- Le support des union types
+- Le support des unions types
 - Le support des intersections
 
 <br/>
