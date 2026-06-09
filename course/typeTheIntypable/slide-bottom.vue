@@ -14,7 +14,7 @@ const showLogo = computed(() => {
         <img
             v-if="showLogo"
             src="./images/duplojs.svg"
-            class="absolute bottom-4 right-4 w-12 opacity-80"
+            class="absolute bottom-4 right-4 w-12 opacity-80 z-10"
         />
     </footer>
 </template>

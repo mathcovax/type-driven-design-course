@@ -195,7 +195,7 @@ Il donc impossible d'utiliser la fonction `division` sans appeler au préalable 
 - L'exécution est désormais safe grâce au **typage**. Impossible d'utiliser `0`, donc impossible d'avoir un résultat erroné a l'execution.
 - Le code de vérification est factorisé. Cette contrainte pourrait être utilisée par d'autres fonctions, ce qui éviterait d'avoir une condition répétée et un retour à null sur chacune d'entre elles à cause d'un paramètre qui serait égale a zero.
 - Moins de tests unitaires. Chaque fonction qui implémenterait cette vérification se verrait targuée de tests unitaires pour qu'ils valideraient que les paramètres rentrés ne créent pas de résultats problématiques. Alors qu'il serait beaucoup plus pertinent de se concentrer sur des tests qui s'occupent uniquement du métier et non pas a des problème liés à des limitations techniques.
-- Ce genre de contract explicite permet de déléguer plus Sereinement des taches à des agents IA pour la partie d'implémentation.
+- Ce genre de contract explicite permet de déléguer plus sereinement des taches à des agents IA pour la partie d'implémentation.
 
 ---
 
@@ -204,11 +204,136 @@ Il donc impossible d'utiliser la fonction `division` sans appeler au préalable 
 DuploJS a tout un arsenal d'outils pour qualifier facilement les contraintes.
 
 À votre disposition, vous avez :
-- Les `DataParser`
-- Les `ConstainedType`
-- Les `NewType`
-- Les `Primitive`
+- Les `DataParsers`
+- Les `Primitives`
+- Les `Constraints`
+- Les `NewTypes`
 
 ---
 
-# DuploJS : Les `DataParser`
+# DuploJS : Les `DataParsers`
+
+Les `DataParsers` sont des outils qui permettent de représenter le **type** et les **spécificités** d'une donnée au runtime. Il vont servir de **guard** car même si le **type** suit, il faut bien que les données entrantes soient **validées** par quelque chose.
+
+```ts twoslash
+<!--@include: ./examples/dataParser.ts -->
+```
+
+---
+
+# DuploJS : Les `DataParsers`
+
+Les `DataParsers` sont accompagnés de `Checkers` pour définir des spécificités à la donnée. 
+
+Exemple, sur une `string`, on souhaiterait qu'elle ait un minimum de `5` caractères. Et bien, le `dataParser` va vérifier le **type** et le `Checker` va vérifier la longueur de la `string`.
+
+```ts twoslash
+<!--@include: ./examples/checker.ts -->
+```
+
+---
+
+# DuploJS : Les `DataParsers`
+
+Il existe au total plus de 20 `DataParsers`. Ils vous aideront à définir correctement une **donnée** et/ou à la **transformer**. Il est possible de récupérer le **type** inféré de vos `DataParsers` à travers les interfaces `Input` et `Output`. Ici, la valeur de `prop2` se retrouve stringnifier en sortie.
+
+```ts twoslash
+<!--@include: ./examples/dataParserDetails.ts -->
+```
+
+--- 
+
+# DuploJS : Les `Primitives`
+
+Les `Primitives` sont un élément central, il crée une structure qui wrap une valeur dans un objet ce qui permet de pouvoir cumuler des attributs comme des `Constraints`. Les primitifs peuvent seulement wraper les types : `string`, `number`, `bigint`, `boolean`, `TheDate` et `TheTime`
+
+```ts twoslash
+<!--@include: ./examples/primitive.ts -->
+```
+
+La valeur définie est **inaccessible**. Pour la **manipuler**, il est donc **obligatoire** d'utiliser les **opérateurs** qui peuvent être fourni par la librairie ou par vous même.
+
+```ts twoslash
+<!--@include: ./examples/primitiveOperator.ts -->
+```
+
+---
+
+# DuploJS : Les `Constraints`
+
+Les `Constraints` permettent de vérifier qu'une valeur respecte une condition qui ne peut être vérifiée que au runtime. Pour créer une `Contraint` il suffit d'indiquer un nom, la `Primitive` concernée et un ou plusieurs `checkers`.
+
+```ts twoslash
+<!--@include: ./examples/constraint.ts -->
+```
+
+Pour créer le **contract**, il suffit de déclarer un **type** et d'appeler l'interface `GetConstraint`.
+
+---
+
+# DuploJS : Les `Constraints`
+
+Pour ensuite exiger la contrainte il suffit d'appeler le type défini.
+
+```ts twoslash
+<!--@include: ./examples/useConstraint.ts -->
+```
+
+Il est donc maintenant impossible d'appeler notre fonction avec autre chose qu'un phone number qui nous garantit avant même l'exécution que tout se passera correctement.
+
+---
+
+# DuploJS : Les `Constraints`
+
+Mais dans la réalité, nous sommes souvent dépendants de plusieurs contraintes. C'est là que **DuploJS** amène les `ConstraintSet`.
+
+```ts twoslash
+<!--@include: ./examples/constraintSet.ts -->
+
+
+
+```
+
+Pour créer notre `ConstraintSet`, ici nous utilisons des contraintes fournies par la lib. On peut observer que la valeur obtenue est une primitive en combinaison avec toutes les contraintes définies dans le set.
+
+---
+
+# DuploJS : Les `Constraints`
+
+Et à l'usage il est tout à fait possible encore de demander autant de contraintes qu'on souhaite.
+
+```ts twoslash
+<!--@include: ./examples/useConstraintSet.ts -->
+```
+
+---
+
+# DuploJS : Les `Constraints`
+
+Les types contraints sont aussi capables d'être utilisés avec les opérateurs.
+
+```ts twoslash
+<!--@include: ./examples/constraintOperator.ts -->
+
+
+```
+
+Et en toute logique, le type perdra les contraintes qui l'a car après opération, il n'est plus sûr de les respecters.
+
+---
+
+# DuploJS : Les `Constraints`
+
+Il est aussi tout à fait possible de caster des contraintes dans le cas où, logiquement, une contrainte implique l'autre. La fonction `castConstraint` permet, à travers un calcul de typage, de pouvoir réassigner une contrainte.
+
+```ts twoslash
+<!--@include: ./examples/castConstraint.ts -->
+```
+
+Dans le cas inverse, si une contrainte n'inclut pas l'autre, une erreur de typages sera indiquée.
+
+---
+
+# DuploJS : Les `NewTypes`
+
+Les `NewTypes` viennent donner une identité à la donnée. Pour en créer il suffit d'utiliser soit une `Primitive` soit un `DataParser` pour des structures composées

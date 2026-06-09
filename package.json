@@ -8,6 +8,7 @@
     "export": "slidev export --per-slide --dark"
   },
   "dependencies": {
+    "@duplojs/utils": "^1.9.2",
     "@slidev/cli": "^52.15.2",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",

@@ -31,10 +31,10 @@ class SubClass extends OtherClass { // Abstraction
 }
 // Predicate
 function isString(value: unknown): value is string {
-    return typeof value === "string"
+    return typeof value === "string";
 }
 function assertsNumber(value: unknown): asserts value is string {
     if(typeof value !== "number") {
-        throw new Error("is not number")
+        throw new Error("is not number");
     }
 }
