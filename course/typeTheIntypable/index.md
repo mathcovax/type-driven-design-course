@@ -336,4 +336,105 @@ Dans le cas inverse, si une contrainte n'inclut pas l'autre, une erreur de typag
 
 # DuploJS : Les `NewTypes`
 
-Les `NewTypes` viennent donner une identité à la donnée. Pour en créer il suffit d'utiliser soit une `Primitive` soit un `DataParser` pour des structures composées
+Les `NewTypes` viennent donner une identité à la donnée. Pour en créer il suffit d'utiliser soit une `Primitive` soit un `DataParser` pour des structures composées.
+
+```ts twoslash
+<!--@include: ./examples/newtype.ts -->
+```
+
+Il est également possible de fournir des `Contraints` afin de rendre notre `NewType` éligible à celle ci.
+
+---
+
+# DuploJS : Les `NewTypes`
+
+Il s'utilise de la même manière que les `Contraints` et les `Primitives`. 
+
+```ts twoslash
+<!--@include: ./examples/useNewtype.ts -->
+```
+
+Il est également possible de les manipuler avec des `Contraints` ou des `Primitives` pour réobtenir une nouvel `Primitive`.
+
+---
+
+# Ça donne quoi dans une situation réelle ?
+
+Pour illustrer quel faux de travail vous pouvez avoir avec ces éléments, je vous propose de réaliser une création de comptes sur une application. 
+
+Lorsqu'un utilisateur veut créer son compte sur mon application, il est obligé de fournir :
+- une adresse email
+- un nom 
+- un âge.
+
+Contraintes :
+- L'adresse email ne doit pas déjà être utilisée. 
+- Le nom doit uniquement contenir des lettres et doit contenir entre 5 et 35 caractères.
+- L'âge doit être supérieur ou egale à 13 ans.
+
+---
+
+# Création d'un utilisateur
+
+La première chose est d'être déclaré et nos champs avec toute leur contrainte.
+
+```ts twoslash
+<!--@include: ./examples/implementation.ts{1,3} -->
+// ---cut---
+<!--@include: ./examples/implementation.ts{4,22} -->
+```
+
+---
+
+# Création d'un utilisateur
+
+Ensuite, on vient créer notre fonction qui s'assure que l'email est correctement disponible.
+
+```ts twoslash
+<!--@include: ./examples/implementation.ts{1,22} -->
+// ---cut---
+<!--@include: ./examples/implementation.ts{24,27} -->
+```
+
+L'implémentation de celle-ci n'a pas beaucoup d'importance. Ici, on illustre juste les contrats d'entrée et de sortie. 
+
+On peut observer ici un nouveau type qui se nomme `Evidence`. Il sert de preuve de passage à un endroit. Il peut être ajouté à un `NewType`, une `Primitive` ou une `Contraint`.
+
+---
+
+# Création d'un utilisateur
+
+Après, on crée notre fonction qui crée l'utilisateur.
+
+```ts twoslash
+<!--@include: ./examples/implementation.ts{1,27} -->
+// ---cut---
+<!--@include: ./examples/implementation.ts{29,33} -->
+```
+
+Encore une fois, ici l'intérêt de l'exemple ne réside pas dans l'implémentation, mais dans le contrat qui oblige à faire certaines choses. On peut voir ici que j'utilise l'interface `GetEvidentResult`, puis je cite la fonction `userEmailIsAvailable` et `available` la preuve exigée.
+
+---
+
+# Création d'un utilisateur
+
+Pour aller plus loin dans l'implémentation, on va utiliser la librairie `@duplojs/http` qui permet de créer des serveurs HTTP typés. Elle met à disposition la méthode `toExtractParser` qui créer un `DataParser` qui va transformer une valeur simple en `NewType` avec ses contraintes.
+
+```ts
+<!--@include: ./examples/implementation.ts{35,53} -->
+```
+
+---
+layout: center
+---
+
+# Pour conclure
+
+Nous pouvons observer que grâce au **Type Driven Design** et au outils de **duplojs**, Il est tout à fait possible de typer tous les aspects de notre données. Cela permet de définir précisément ce que nous souhaitons et de sécuriser l'exécution du code. Cela crée en plus une source de vérité unique Qui peut être utilisé à tous les niveaux que ce soit pour valider en backhand ou même en frontend dans des formulaire.
+
+---
+layout: center
+---
+
+# Fin du chapitre de l'intypable.
+## Prochain chapitre : Les entités.
