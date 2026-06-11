@@ -12,6 +12,5 @@ const result = pipe(
         ({dividend, divisor}) => division(dividend, divisor)
     )
 )
-
 result;
 // ^?
