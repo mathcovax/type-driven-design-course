@@ -201,6 +201,16 @@ Il est donc impossible d'utiliser la fonction `division` sans appeler au préala
 
 # Après la théorie, la pratique avec DuploJS !
 
+La création de contraintes est native. Ce qui permet très facilement de résoudre la contrainte métier d'une division. Le tout est accompagné d'un système de monade pour identifier facilement les résultats.
+
+```ts twoslash
+<!--@include: ./examples/divisionDuplojs.ts -->
+```
+
+---
+
+# Après la théorie, la pratique avec DuploJS !
+
 DuploJS a tout un arsenal d'outils pour qualifier facilement les contraintes.
 
 À votre disposition, vous avez :
