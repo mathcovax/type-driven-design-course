@@ -15,7 +15,8 @@ const myObject: MyObject = {
     values: {
         one: 1,
         two: 2,
-    } satisfies Record<"one" | "two", unknown> // Annotation secondére,
+    // Annotation secondaire,
+    } satisfies Record<"one" | "two", unknown>
 }
 class SuperClass implements MyObject { // Implémentation
     prop1: string = "12";

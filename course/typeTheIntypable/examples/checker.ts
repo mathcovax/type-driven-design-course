@@ -1,6 +1,6 @@
 import { DP, DPE, E } from "@duplojs/utils";
 
-DPE.string().min(5);
+const myDataParserWithCheckerMin = DPE.string().min(5); // Méthode disponible dans la version extended.
 
 const userNameDataParser = DP.string()
     .addChecker(
